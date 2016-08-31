@@ -1,0 +1,19 @@
+mongodb:
+  image: mongo:3.0.4
+  ports:
+    - "27017:27017"
+  command: mongod --smallfiles
+
+spring-boot:
+  build: ./phone-rest/target
+  ports:
+     - "8080:8080"
+  links:
+    - mongodb
+
+angular-phonecat:
+  build: ./angular-phonecat/
+  ports:
+    - "9000:8000"
+  links:
+    - spring-boot   

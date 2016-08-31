@@ -1,0 +1,20 @@
+#!/bin/bash          
+
+docker rm -f $(docker ps -qa)
+lsof -t -i tcp:8080 -s tcp:listen | xargs kill
+lsof -t -i tcp:27017 -s tcp:listen | xargs kill
+
+#docker run --name mongodb1 --detach --publish-all  -p 27017:27017 mongo
+#docker cp ./mongodb-db/phones.json mongodb1:phones.json
+#docker exec -it mongodb1 mongoimport -d test -c phones phones.json --jsonArray
+
+cd phone-rest
+mvn clean install
+
+cd target/classes
+docker build .
+#docker build target/classes/
+
+# java -jar ./target/phone-rest-0.1.0.jar
+
+ exit
